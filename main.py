@@ -1,7 +1,7 @@
 from plotting import TwoDimFigure
 from plotting import plt
 
-from own_model import MongooseModel, MongooseModel2
+from own_model import MongooseModel, MongooseModel2, MongooseLinearModel
 
 PLOT_LABELS = ("Exact population size", "Inexact population size", "Captures")
 FIGURE_LABELS = "year", "individuals"
@@ -47,25 +47,22 @@ initial_values_plots = {
 TwoDimFigure("Mongoose population dynamics", initial_values_plots,
              FIGURE_LABELS)
 
-model = MongooseModel()
+model = MongooseLinearModel(5)
 
 # solution
 MONGOOSE0 = 30
 y0 = (MONGOOSE0,)
 
 model.solve(y0, FIRST_PART_YEARS)
-# plt.figure()
 model.create_figure("Mongoose population dynamics", "cyan")
 
-model = MongooseModel(r=0.427, k=2.89068494e+03, h=0.64819849)
-
-# solution
-MONGOOSE0 = 5400
-y0 = (MONGOOSE0,)
-
-model.solve(y0, SECOND_PART_START_YEARS)
-# plt.figure()
-model.create_figure("Mongoose population dynamics", "cyan")
+# model = MongooseModel(r=0.427, k=9.14068494e+03, h=0.64819849)
+#
+# MONGOOSE0 = 5400
+# y0 = (MONGOOSE0,)
+#
+# model.solve(y0, SECOND_PART_START_YEARS)
+# model.create_figure("Mongoose population dynamics", "cyan")
 
 plt.show()
 
