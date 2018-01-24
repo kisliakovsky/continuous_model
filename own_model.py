@@ -71,56 +71,6 @@ class MongooseModel(object):
         plt.show()
 
 
-class MongooseLinearModel(object):
-
-    _PLOT_LABELS = ("Modeled population size",)
-    _FIGURE_LABELS = "year", "individuals"
-
-    def __init__(self, a):
-        self.__a = a
-
-        def _ode_mongoose():
-            return self.__a
-
-        self.__odes = (_ode_mongoose,)
-        self.__time_grid = None
-        self.__solution = None
-
-
-    @property
-    def a(self):
-        return self.__a
-
-    @property
-    def solution(self):
-        return self.__solution
-
-    @staticmethod
-    def _ode_sys(fs):
-        return lambda y, t: [f(*y) for f in fs]
-
-    def apply(self, t):
-        sol = odeint(MongooseModel._ode_sys(self.__odes), (30,), np.array([1979, t]))
-        mongoose = sol[:, 0]
-        return mongoose[1]
-
-    def solve(self, init_vector, time_grid):
-        self.__solution = odeint(MongooseModel._ode_sys(self.__odes), init_vector, time_grid)
-        self.__time_grid = time_grid
-        return self.__solution
-
-    def create_figure(self, title, color=None):
-        mongoose = self.__solution[:, 0]
-        solution_plots = {
-            MongooseModel._PLOT_LABELS[0]: (self.__time_grid, mongoose)
-        }
-        return TwoDimFigure(title, solution_plots, MongooseModel._FIGURE_LABELS, color)
-
-    @staticmethod
-    def draw_figure():
-        plt.show()
-
-
 class MongooseModel2(object):
 
     _PLOT_LABELS = ("Modeled population size",)
